@@ -9,9 +9,9 @@ from oauth2client.client import GoogleCredentials
 
 class DataLoader:
 
-    def __init__(self):
-        self.german_name = "german.pickle"
-        self.english_name = "english.pickle"
+    def __init__(self, german, english):
+        self.german_name = german
+        self.english_name = english
         # gauth = GoogleAuth()
         # gauth.credentials = GoogleCredentials.get_application_default()
         # self.drive = GoogleDrive(gauth)
@@ -22,6 +22,7 @@ class DataLoader:
             german_data = {}
             with open(self.german_name, "rb") as f:
                 german_data = pickle.load(f)
+                print(len(german_data['train'][0]))
                 return german_data
         # else:
         #     german = self.drive.CreateFile({'id': '1UqJmu1fvDyNWx2D7joWY9aAmeKRY9tw6'})
@@ -39,13 +40,14 @@ class DataLoader:
             english_data = {}
             with open(self.english_name, "rb") as f:
                 english_data = pickle.load(f)
-                pad = 768 - 743
+                pad = 202 - 202
                 pad_arr = [0]*pad
                 idx = 0
                 for i in english_data['train']:
                     i = i + pad_arr
                     english_data['train'][idx] = i
                     idx += 1
+                print(len(english_data['train'][0]))
                 return english_data
         # else:
         #     english = self.drive.CreateFile({'id': '1UqJmu1fvDyNWx2D7joWY9aAmeKRY9tw6'})

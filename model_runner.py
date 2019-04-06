@@ -1,26 +1,27 @@
 from data_loader import DataLoader
 from base_seq2seq import Base, Attention, Encoder, Decoder
 from torch import nn, optim
+import torch, time, random
 
 def main():
     english_data, german_data = get_data()
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     model = create_model(english_data, german_data, device)
     params = {}
-    params['batch_size'] = 16
-    params['epochs'] = 1
+    params['batch_size'] = 50
+    params['epochs'] = 10
     params['learning_rate'] = 0.001
 
-    train(english_data['train'][:256], english_data['dev'][:256],
-          german_data['train'][:256], german_data['dev'][:256], model, params)
+    train(english_data['train'], english_data['dev'],
+          german_data['train'], german_data['dev'], model, params)
 
 def create_model(english_data, german_data, device):    
     INPUT_DIM = len(german_data['idx2word'])
     OUTPUT_DIM = len(english_data['idx2word'])
     ENC_EMB_DIM = 256
     DEC_EMB_DIM = 256
-    ENC_HID_DIM = 512
-    DEC_HID_DIM = 512
+    ENC_HID_DIM = 256
+    DEC_HID_DIM = 256
     ENC_DROPOUT = 0.5
     DEC_DROPOUT = 0.5
     attn = Attention(ENC_HID_DIM, DEC_HID_DIM)
@@ -29,10 +30,14 @@ def create_model(english_data, german_data, device):
     dec = Decoder(OUTPUT_DIM, DEC_EMB_DIM, ENC_HID_DIM,
                   DEC_HID_DIM, DEC_DROPOUT, attn)
     model = Base(enc, dec, device).to(device)
+    return model
 
 
 def get_data():
-    file_loader = DataLoader()
+    german_file = "german200_50k.pickle"
+    english_file = "english200_50k.pickle"
+    torch.cuda.empty_cache()
+    file_loader = DataLoader(german_file, english_file)
     german_data = file_loader.get_german()
     english_data = file_loader.get_english()
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -60,25 +65,30 @@ def train(eng_train, eng_dev, de_train, de_dev, net, params):
         random.shuffle(batches)
         
         # for each batch, calculate loss and optimize model parameters            
+        accumulation_steps = 5
+        len_batch = len(batches)
         for b_idx, (start, end) in enumerate(batches):
-            
+            print("batch: ", str(b_idx), " total: ", str(len_batch))
             de_src = de_train[start:end]
             eng_trg = eng_train[start:end]
-            print("de_src size: ", de_src.size())
             preds = net(de_src, eng_trg)
             
             # q1.1: explain the below line!
             preds = preds[1:].view(-1, preds.shape[-1])
-            print("preds size ", preds.size())
-            eng_trg = eng_trg[1:].view(-1)
-            print("trg size ", eng_trg.size())
-            loss = criterion(preds, eng_trg)
+            eng_target = eng_trg[1:].view(-1)
+            loss = criterion(preds, eng_target)
             
             loss.backward()
             optimizer.step()
             optimizer.zero_grad()
             ep_loss += loss
-
+        
+        checkpoint = {}
+        checkpoint['state_dict'] = net.state_dict()
+        checkpoint['optimizer'] = optimizer.state_dict()
+        checkpoint['epoch'] = epoch
+        file_name = 'checkpoint_{0}.pth'.format(epoch)
+        torch.save(checkpoint, 'checkpoint.pth')
         print('epoch: {0}, loss: {1}, time: {2}'.format(epoch, ep_loss, time.time()-start_time))
 
 

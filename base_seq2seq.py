@@ -194,7 +194,7 @@ class Base(nn.Module):
         trg_vocab_size = self.decoder.output_dim
         
         #tensor to store decoder outputs
-        outputs = torch.zeros(max_len, batch_size, trg_vocab_size).to(self.device)
+        outputs = torch.zeros(max_len, batch_size, trg_vocab_size).cuda()
         
         #encoder_outputs is all hidden states of the input sequence, back and forwards
         #hidden is the final forward and backward hidden states, passed through a linear layer
