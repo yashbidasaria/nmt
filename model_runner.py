@@ -8,7 +8,7 @@ def main():
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     model = create_model(english_data, german_data, device)
     params = {}
-    params['batch_size'] = 50
+    params['batch_size'] = 40
     params['epochs'] = 10
     params['learning_rate'] = 0.001
 
@@ -34,8 +34,8 @@ def create_model(english_data, german_data, device):
 
 
 def get_data():
-    german_file = "german200_50k.pickle"
-    english_file = "english200_50k.pickle"
+    german_file = "german200.pickle"
+    english_file = "english200.pickle"
     torch.cuda.empty_cache()
     file_loader = DataLoader(german_file, english_file)
     german_data = file_loader.get_german()
@@ -68,7 +68,8 @@ def train(eng_train, eng_dev, de_train, de_dev, net, params):
         accumulation_steps = 5
         len_batch = len(batches)
         for b_idx, (start, end) in enumerate(batches):
-            print("batch: ", str(b_idx), " total: ", str(len_batch))
+            if b_idx % 15 == 0:
+                print("batch: ", str(b_idx), " total: ", str(len_batch))
             de_src = de_train[start:end]
             eng_trg = eng_train[start:end]
             preds = net(de_src, eng_trg)
@@ -87,8 +88,8 @@ def train(eng_train, eng_dev, de_train, de_dev, net, params):
         checkpoint['state_dict'] = net.state_dict()
         checkpoint['optimizer'] = optimizer.state_dict()
         checkpoint['epoch'] = epoch
-        file_name = 'checkpoint_{0}.pth'.format(epoch)
-        torch.save(checkpoint, 'checkpoint.pth')
+        file_name = 'checkpoints/checkpoint_{0}_300.pth'.format(epoch)
+        torch.save(checkpoint, file_name)
         print('epoch: {0}, loss: {1}, time: {2}'.format(epoch, ep_loss, time.time()-start_time))
 
 

@@ -40,14 +40,15 @@ class DataLoader:
             english_data = {}
             with open(self.english_name, "rb") as f:
                 english_data = pickle.load(f)
-                pad = 202 - 202
+                print(len(english_data['train'][0]))
+                pad = 202 - 194
                 pad_arr = [0]*pad
                 idx = 0
                 for i in english_data['train']:
                     i = i + pad_arr
                     english_data['train'][idx] = i
                     idx += 1
-                print(len(english_data['train'][0]))
+                #print(len(english_data['train'][0]))
                 return english_data
         # else:
         #     english = self.drive.CreateFile({'id': '1UqJmu1fvDyNWx2D7joWY9aAmeKRY9tw6'})
