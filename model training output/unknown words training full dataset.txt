@@ -1,0 +1,76 @@
+Baking batches...
+Done.
+batch: 0 , 1155.874816 MB used
+batch: 806 , 2515.460608 MB used
+batch: 1612 , 2367.776768 MB used
+batch: 2418 , 2745.581568 MB used
+batch: 3224 , 5471.469056 MB used
+Validation loss has not improved in 0 epochs
+Epoch: 01 | Time: 52m 3s
+	Train Loss: 4.832 | Train PPL: 125.508
+	 Val. Loss: 5.065 |  Val. PPL: 158.459
+Baking batches...
+Done.
+batch: 0 , 2283.784192 MB used
+batch: 807 , 2281.941504 MB used
+batch: 1614 , 2454.07488 MB used
+batch: 2421 , 2674.765312 MB used
+Validation loss has not improved in 0 epochs
+Epoch: 02 | Time: 52m 16s
+	Train Loss: 3.711 | Train PPL:  40.889
+	 Val. Loss: 4.966 |  Val. PPL: 143.422
+Baking batches...
+Done.
+batch: 0 , 2352.62464 MB used
+batch: 806 , 2429.545472 MB used
+batch: 1612 , 2310.562304 MB used
+batch: 2418 , 2323.360256 MB used
+batch: 3224 , 5471.473152 MB used
+Validation loss has not improved in 0 epochs
+Epoch: 03 | Time: 52m 14s
+	Train Loss: 3.284 | Train PPL:  26.687
+	 Val. Loss: 4.878 |  Val. PPL: 131.371
+Baking batches...
+Done.
+batch: 0 , 2283.716096 MB used
+batch: 806 , 2528.177664 MB used
+batch: 1612 , 2281.648128 MB used
+batch: 2418 , 2501.796864 MB used
+batch: 3224 , 5471.443968 MB used
+Validation loss has not improved in 0 epochs
+Epoch: 04 | Time: 52m 14s
+	Train Loss: 3.035 | Train PPL:  20.804
+	 Val. Loss: 4.809 |  Val. PPL: 122.632
+Baking batches...
+Done.
+batch: 0 , 2453.945344 MB used
+batch: 807 , 2430.284288 MB used
+batch: 1614 , 2518.623232 MB used
+batch: 2421 , 2306.659328 MB used
+Validation loss has not improved in 1 epochs
+Epoch: 05 | Time: 52m 9s
+	Train Loss: 2.875 | Train PPL:  17.720
+	 Val. Loss: 4.811 |  Val. PPL: 122.807
+Baking batches...
+Done.
+batch: 0 , 2231.478784 MB used
+batch: 807 , 2275.638272 MB used
+batch: 1614 , 2739.337728 MB used
+batch: 2421 , 2453.175808 MB used
+batch: 3228 , 6423.021056 MB used
+Validation loss has not improved in 2 epochs
+Epoch: 06 | Time: 52m 13s
+	Train Loss: 2.774 | Train PPL:  16.015
+	 Val. Loss: 4.964 |  Val. PPL: 143.158
+Baking batches...
+Done.
+batch: 0 , 2324.78976 MB used
+batch: 806 , 2458.02496 MB used
+batch: 1612 , 2281.92256 MB used
+batch: 2418 , 2385.348608 MB used
+batch: 3224 , 5471.501312 MB used
+Validation loss has not improved in 3 epochs
+Epoch: 07 | Time: 52m 14s
+	Train Loss: 2.695 | Train PPL:  14.800
+	 Val. Loss: 4.874 |  Val. PPL: 130.863
+Early Stopping
